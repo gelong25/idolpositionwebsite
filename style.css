@@ -1,0 +1,410 @@
+/*colors*/
+:root {
+    --color-gallery-approx: #eeeeee;
+    --white: #ffffff;
+    --color-jade-approx: #1fb264;
+    --color-salem-approx: #15824b;
+    --color-eucalyptus-approx: #1aa059;
+    --color-log-cabin-approx: #222;
+    --color-valencia-approx: #cd4535;
+    --color-roof-terracotta-approx: #b02818;
+    --color-flush-mahogany-approx: #c13b2a;
+}
+
+/*fonts*/
+:root {
+    --font-0: sans-serif;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: #ffffff;
+}
+
+.file-upload {
+    background-color: var(--white);
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.file-upload-btn {
+    width: 100%;
+    margin: 0;
+    color: var(--white);
+    background: var(--color-jade-approx);
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    border-bottom: 4px solid var(--color-salem-approx);
+    transition: all 0.2s ease;
+    outline: none;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.file-upload-btn:hover {
+    background-color: #384B6B;
+    color: var(--white);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 1.5px dashed;
+}
+
+.file-upload-btn:active {
+    border: 0;
+    transition: all 0.2s ease;
+}
+
+.file-upload-content {
+    display: none;
+    text-align: center;
+    max-width: 700px;
+}
+
+@media (max-width: 768px) { /* 화면이 768px 이하일 때 */
+    .file-upload-content {
+        width: 100%; /* 원하는 크기로 조절 */
+        margin: 0 auto; /* 가운데 정렬을 위한 추가 설정 */
+    }
+    
+    .loading-text {
+        font-size:1.4rem;
+    }
+}
+
+.file-upload-input {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.image-upload-wrap {
+    object-fit: contain;
+    border-radius: 10px;
+    border: dashed 2px #384B6B;
+    background-color: #ffffff;
+}
+
+.image-upload-wrap:hover {
+    background-color: #e8eaee;
+    border: 4px dashed var(--white);
+}
+
+.image-dropping {
+    background-color: var(--color-jade-approx);
+    border: 4px dashed var(--white);
+}
+
+.image-title-wrap {
+    padding: 0 15px 15px;
+    color: var(--color-log-cabin-approx);
+}
+
+.drag-text {
+    text-align: center;
+}
+
+.drag-text h3 {
+    font-weight: 100;
+    text-transform: uppercase;
+    color: var(--color-salem-approx);
+    padding: 60px 0;
+}
+
+.file-upload-image {
+    max-height: 500px; /* 원하는 최대 높이로 설정 */
+    max-width: 400px; /* 원하는 최대 너비로 설정 */
+    margin: auto;
+    align-items: center;
+    padding: 20px;
+}
+
+.remove-image {
+    width: 50%;
+    margin: 0;
+    color: var(--white);
+    background: var(--color-valencia-approx);
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+    outline: none;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-family: Cafe24Ssurround;
+    font-size: 2rem;
+}
+
+.remove-image:hover {
+    background: var(--color-flush-mahogany-approx);
+    color: var(--white);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.remove-image:active {
+    border: 0;
+    transition: all 0.2s ease;
+}
+
+.nav-distance {
+    padding: 2.1% 7.7%;
+}
+
+/*titile style*/
+.navbar-light .navbar-brand {
+    font-family: Cafe24Ssurround;
+    line-height: 1.68;
+    text-align: left;
+    color: #384B6B;
+}
+
+.navbar-light .navbar-toggler {
+    border-color: #ffffff;
+}
+
+/*아이돌 그룹 포지션 테스트*/
+.section {
+    margin-top: 100px;
+    margin-bottom: 20px;
+}
+.title {
+    font-family: Cafe24Ssurround;
+    line-height: 1.67;
+    text-align: center;
+    color: #384B6B;
+}
+/*내가 아이돌 멤버라면 나는 어떤 포지션일까?*/
+.subtitle {
+    font-family: Cafe24Ssurround;
+    line-height: 1.58;
+    text-align: center;
+    color: #384B6B;
+    margin-bottom: 50px;
+    margin-top: 15px;
+}
+
+/* 화면 크기에 따른 폰트사이즈 변경 */
+@media screen and (max-width: 600px) {
+    html {
+        font-size: 10px;
+    }
+    .navbar-brand {
+        font-size: 2rem;
+    }
+}
+
+.container file-upload {
+    width: 914px;
+    height: 50vw;
+    border-radius: 10px;
+    border: solid 1.5px #f6f7fa;
+    background-color: #f6f7fa;
+}
+
+.upload {
+    margin-top: 50px;
+    width: 25%;
+    max-width: 25%;
+}
+
+h3.upload-text {
+    font-family: Cafe24Ssurround;
+    line-height: 1.53;
+    text-align: center;
+    color: #384B6B;
+    font-size: 2rem;
+}
+
+/*다시하기*/
+.remove-image {
+    /*padding-top: 50px;*/
+    background-color: #384B6B;
+    color: #ffffff;
+    font-size: 1rem;
+    width: 50%;
+    margin-top: 20%;
+}
+
+@font-face {
+    font-family: 'Cafe24Ssurround';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff')
+        format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2')
+        format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'KyoboHand';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/KyoboHand.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*그래프*/
+.bar-chart {
+    display: flex;
+    margin-top: 10px;
+    width: 100%;
+    max-width: 1000px;
+
+}
+
+/*100% -(결과값)% */
+.remaining-bar {
+    background-color: #F2F2F2;
+    font-size: 0;
+    border-radius: 0 10px 10px 0;
+    margin-bottom: 5px;
+    width: calc(100% - var(--bar-percent-width));  /* 결과값의 비율에 맞게 너비 설정 */
+    transition: width 0.5s ease;
+    min-width : 1%
+}
+
+
+.bar {
+    flex-grow: 1;
+    border-radius: 10px 0 0 10px;
+    margin-bottom: 5px;
+    align-items: center;
+    justify-content: flex-end;
+    width: 300px;
+    min-width : 1%
+
+}
+
+.bar-label {
+    margin-left: 5px;
+    margin-right:5px;
+    width: 100%;
+    font-family: omyu_pretty;
+    color: #384B6B;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.bar-percent {
+    margin-left: auto;
+    font-weight: bold;
+    text-align: center;
+    font-family: omyu_pretty;
+    color: #ffffff;
+    width: fit-content;
+}
+
+.percentage-label {
+    margin-left: 10px;
+    margin-left: 5px;
+}
+
+/*결과 메시지*/
+.result-message {
+    font-family: omyu_pretty;
+    font-size: 1.5rem;
+    color: #384B6B;
+    text-align: center;
+    line-height: 1.68;
+    width: 100%; /* 변경된 부분 */
+    margin: 5px auto; /* 변경된 부분 */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+
+.center {
+    color: #f5b8b2;
+    font-weight: bold;
+    font-size: 2.4rem;
+    text-align: center;
+    
+}
+
+.visual {
+    color: #ffc0cb;
+    font-weight: bold;
+    font-size: 2.4rem;
+    text-align: center;
+}
+
+.main-vocal {
+    color: #FFDA7C;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.main-rapper {
+    color: #D2B5DE;
+    font-weight: bold;
+    font-size: 2.4rem;
+    text-align: center;
+}
+
+.main-dancer {
+    color: #a9def9;
+    font-weight: bold;
+    font-size: 2.4rem;
+    text-align: center;
+}
+
+.leader {
+    color: #7bc1b2;
+    font-weight: bold;
+    font-size: 2.4rem;
+    text-align: center;
+}
+
+/*로딩창*/
+#loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: #585858;
+    margin-bottom: 10px;
+}
+
+.spinner-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.loading-text {
+    font-size: 2.7rem;
+    color: #000000;
+    font-weight: bold;
+    font-family: KyoboHand;
+    font-style: oblique;
+}
+
+.additional-message{
+    font-family: omyu_pretty;
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-align: right;
+    margin-right:30px; 
+    margin-bottom:10px;
+    color: #838385;
+}

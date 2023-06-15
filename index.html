@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Bootstrap demo</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <style>
+        #center-chart .bar {
+            background-color: #f5b8b2;
+        }
+
+        #visual-chart .bar {
+            background-color: #ffc0cb;
+        }
+
+        #mebo-chart .bar {
+            background-color: #ffda7c;
+        }
+
+        #dance-chart .bar {
+            background-color: #a9def9;
+        }
+
+        #rap-chart .bar {
+            background-color: #d2b5de;
+        }
+
+        #leader-chart .bar {
+            background-color: #7bc1b2;
+        }
+    </style>
+
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light nav-distance">
+            <a class="navbar-brand" href="#">아이돌 포지션 테스트</a>
+        </nav>
+        <section class="section">
+            <h1 class="title">아이돌 그룹 포지션 테스트</h1>
+            <h2 class="subtitle">내가 아이돌 멤버라면 나는 어떤 포지션일까?</h2>
+        </section>
+        <!-- jQuery -->
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"
+        ></script>
+        <!-- Popper.js -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"
+        ></script>
+        <!-- Bootstrap JS -->
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"
+        ></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+        <script type="text/javascript">
+            const URL = 'https://teachablemachine.withgoogle.com/models/Uxf0rcUDu/';
+
+            let model, webcam, labelContainer, maxPredictions;
+
+            async function init() {
+                const modelURL = URL + 'model.json';
+                const metadataURL = URL + 'metadata.json';
+
+                model = await tmImage.load(modelURL, metadataURL);
+                maxPredictions = model.getTotalClasses();
+
+                labelContainer = document.getElementById('label-container');
+                labelContainer.style.display = 'none';
+                document.getElementById('loading').style.display = 'block';
+
+                for (let i = 0; i < maxPredictions; i++) {
+                    labelContainer.appendChild(document.createElement('div'));
+                }
+            }
+
+            async function predict() {
+                const barChartContainer = document.querySelector('.bar-chart-container');
+                barChartContainer.removeAttribute('hidden');
+
+                document.getElementById('loading').style.display = 'none';
+
+                const barChartList = document.getElementById('bar-chart-list');
+                barChartList.style.display = 'block';
+
+                var image = document.getElementById('faceimage');
+                const prediction = await model.predict(image, false);
+                prediction.sort((a, b) => b.probability - a.probability);
+
+                var resultMessage;
+                var resultClassName;
+                switch (prediction[0].className) {
+                    case '센터':
+                        resultMessage =
+                            '<span class="center">센터상</span>\n' +
+                            '당신은 청순한 비주얼의 센터상입니다.\n당신은 대중에게 그룹의 이름을 알리고 무대 위에서 중심을 잡는 역할을 합니다. 그룹의 이름이 거론되면 사람들은 당신의 얼굴을 떠올리게 됩니다.';
+
+                        break;
+                    case '비주얼':
+                        resultMessage =
+                            '<span class="visual">비주얼상</span>\n' +
+                            '당신은 그룹의 입덕을 불러 모으는 비주얼상입니다.\n당신은 무대 위에서 언제나 엔딩 요정 역할을 합니다. 팬이 아닌 사람도 당신의 사진을 저장할 만큼 만인의 호감형입니다.';
+
+                        break;
+                    case '메보':
+                        resultMessage =
+                            '<span class="main-vocal">메인보컬상</span>\n' +
+                            '당신은 귀여운 외모의 메인보컬상입니다.\n당신의 음색과 가창은 대중의 귀에 각인되어 팀의 목소리 역할을 합니다. 귀여운 외모와 성격 그리고 이를 뒷받침하는 실력은 단단한 코어팬층을 형성합니다.';
+
+                        break;
+                    case '랩':
+                        resultMessage =
+                            '<span class="main-rapper">메인래퍼상</span>\n' +
+                            '당신은 시크하고 도도한 메인래퍼상입니다.<br>당신의 무대 위에서의 모습과 평소 모습의 갭 차이는 많은 팬을 모읍니다. 무표정한 당신의 차가운 인상이 웃으며 풀어질 때를 팬들이 좋아합니다.';
+
+                        break;
+                    case '댄스':
+                        resultMessage =
+                            '<span class="main-dancer">메인댄서상</span>\n' +
+                            '당신은 강렬한 외모의 직캠 장인인 메인댄서상입니다.\n당신의 다채로운 표정 연기와 매력은 무대 위에서 더욱 빛납니다. 당신의 흡입력 있는 퍼포먼스 덕분에 직캠은 항상 인급동에 오릅니다. ';
+
+                        break;
+                    case '리더':
+                        resultMessage =
+                            '<span class="leader">리더상</span>\n' +
+                            '당신은 단단하면서 부드러운 리더상입니다.\n당신의 안정감과 리더십이 멤버와 팬들을 편안하게 하며 팀의 정식적 지주 역할을 합니다. 당신은 종종 면접이나 상견례 프리패스 상으로 언급되곤 합니다.';
+                        break;
+                    default:
+                        resultMessage = '결과를 찾을 수 없습니다.';
+                        break;
+                }
+                $('.result-message').html(resultMessage);
+                $('.result-message').addClass(resultClassName);
+                $('.result-message').css('white-space', 'pre-line');
+                let totalProbability = 0;
+                const probabilities = [];
+                for (let i = 0; i < prediction.length; i++) {
+                    totalProbability += prediction[i].probability;
+                    probabilities.push({
+                        position: prediction[i].className,
+                        probability: prediction[i].probability,
+                    });
+                }
+                probabilities.sort((a, b) => a.probability - b.probability);
+
+                for (let i = 0; i < probabilities.length; i++) {
+                    const position = probabilities[i].position;
+                    const probability = (
+                        (probabilities[i].probability / totalProbability) *
+                        100
+                    ).toFixed(2);
+                    const chartId = positionChartMap[position.toLowerCase()];
+                    const chartElement = document.getElementById(chartId);
+                    if (chartElement) {
+                        const bar = chartElement.querySelector('.bar');
+                        const barPercent = chartElement.querySelector('.bar-percent');
+
+                        bar.style.width = probability + '%';
+                        barPercent.textContent = probability + '%';
+
+                        const remainingBar = chartElement.querySelector('.remaining-bar');
+                        if (remainingBar) {
+                            const remainingPercent = 100 - probability;
+                            remainingBar.style.width = remainingPercent + '%';
+                            remainingBar.textContent = remainingPercent + '%';
+                        }
+
+                        // 그래프의 순서를 변경
+                        const parent = chartElement.parentNode;
+                        parent.insertBefore(chartElement, parent.firstChild);
+                    }
+                }
+
+                for (let i = 0; i < probabilities.length; i++) {
+                    console.log(
+                        probabilities[i].position +
+                            ': ' +
+                            (probabilities[i].probability * 100).toFixed(2) +
+                            '%'
+                    );
+                }
+            }
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('.image-upload-wrap').hide();
+                        $('.file-upload-image').attr('src', e.target.result);
+                        $('.file-upload-content').show();
+                        $('.image-title').html(input.files[0].name);
+                        init().then(() => {
+                            predict();
+                        });
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    removeUpload();
+                }
+            }
+            function removeUpload() {
+                $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+                $('.file-upload-content').hide();
+                $('.image-upload-wrap').show();
+                $('#loading').css('display', 'block');
+                $('#label-container').css('display', 'none');
+                $('.result-message').empty();
+                document.querySelector('.bar-chart-container').hidden = true;
+            }
+
+            $('.image-upload-wrap').bind('dragover', function () {
+                $('.image-upload-wrap').addClass('image-dropping');
+            });
+            $('.image-upload-wrap').bind('dragleave', function () {
+                $('.image-upload-wrap').removeClass('image-dropping');
+            });
+        </script>
+        <script type="text/javascript">
+            const positionChartMap = {
+                센터: 'center-chart',
+                비주얼: 'visual-chart',
+                메보: 'mebo-chart',
+                댄스: 'dance-chart',
+                랩: 'rap-chart',
+                리더: 'leader-chart',
+            };
+        </script>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="image-upload-wrap">
+                        <input
+                            class="file-upload-input"
+                            type="file"
+                            onchange="readURL(this);"
+                            accept="image/*"
+                        />
+                        <div class="drag-text">
+                            <img src="img/upload.png" class="upload" />
+                            <h3 class="upload-text">정면 사진을<br />첨부해 주세요</h3>
+                        </div>
+                        <div class="additional-message">
+                            첨부한 사진은 저장되지 않습니다
+                        </div>
+                    </div>
+                    <div class="file-upload-content">
+                        <img class="file-upload-image" id="faceimage" src="#" alt="your image" />
+                        <p class="result-message"></p>
+                        <div id="label-container">
+                            <ul id="label-list"></ul>
+                        </div>
+                        <div id="loading" class="loading-screen">
+                            <div class="spinner-wrapper">
+                                <div class="spinner-border text-primary" role="status">
+                                    <ul id="bar-chart-list" style="display: none;"></ul>
+                                    <span class="sr-only">로딩중...</span>
+                                </div>
+                                <span class="loading-text">테스트 결과를 분석중입니다.</span>
+                            </div>
+                        </div>
+
+                        <div class="bar-chart-container" hidden>
+                            <li id="center-chart" class="bar-chart">
+                                <span class="bar-label">센터</span>
+                                <div class="bar">
+                                    <span class="bar-percent"></span>
+                                </div>
+                                <div class="remaining-bar"></div>
+                                <span class="percentage-label"></span>
+                            </li>
+
+                            <li id="visual-chart" class="bar-chart">
+                                <span class="bar-label">비주얼</span>
+                                <div class="bar">
+                                    <span class="bar-percent"></span>
+                                </div>
+                                <div class="remaining-bar"></div>
+                                <span class="percentage-label"></span>
+                            </li>
+
+                            <li id="mebo-chart" class="bar-chart">
+                                <span class="bar-label">메보</span>
+                                <div class="bar">
+                                    <span class="bar-percent"></span>
+                                </div>
+                                <div class="remaining-bar"></div>
+                                <span class="percentage-label"></span>
+                            </li>
+                            <li id="dance-chart" class="bar-chart">
+                                <span class="bar-label">댄스</span>
+                                <div class="bar">
+                                    <span class="bar-percent"></span>
+                                </div>
+                                <div class="remaining-bar"></div>
+                                <span class="percentage-label"></span>
+                            </li>
+                            <li id="rap-chart" class="bar-chart">
+                                <span class="bar-label">랩</span>
+                                <div class="bar">
+                                    <span class="bar-percent"></span>
+                                </div>
+                                <div class="remaining-bar"></div>
+                                <span class="percentage-label"></span>
+                            </li>
+                            <li id="leader-chart" class="bar-chart">
+                                <span class="bar-label">리더</span>
+                                <div class="bar">
+                                    <span class="bar-percent"></span>
+                                </div>
+                                <div class="remaining-bar"></div>
+                                <span class="percentage-label"></span>
+                            </li>
+                        </div>
+                        <div class="image-title-wrap">
+                            <button type="button" onclick="removeUpload()" class="remove-image">
+                                다시하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <!-- Copyright (c) 2023 by Michael Vieth (https://codepen.io/mavieth/pen/evJjpo)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ -->
+</html>
