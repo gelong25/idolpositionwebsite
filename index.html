@@ -9,6 +9,10 @@
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         />
         <link rel="stylesheet" href="style.css" />
+        <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+        <script>
+            Kakao.init('89b62794675f22a5e93c52fdbb4a4cd3');
+        </script>
     </head>
     <style>
         #center-chart .bar {
@@ -237,6 +241,52 @@
                 리더: 'leader-chart',
             };
         </script>
+        <script>
+            function shareTwitter() {
+                var sendText = '아이돌 포지션 테스트 공유'; // 전달할 텍스트
+                var sendUrl = 'idolposition.site'; // 전달할 URL
+
+                // URL 인코딩 적용
+                var encodedText = encodeURIComponent(sendText);
+                var encodedUrl = encodeURIComponent(sendUrl);
+
+                var twitterUrl =
+                    'https://twitter.com/intent/tweet?text=' + encodedText + '&url=' + encodedUrl;
+                window.open(twitterUrl);
+            }
+        </script>
+        <script>
+            function shareFacebook() {
+                var sendUrl = 'idolposition.site'; // 전달할 URL
+                window.open('http://www.facebook.com/sharer/sharer.php?u=' + sendUrl);
+            }
+        </script>
+        <script>
+            function shareKakao() {
+            // 카카오링크 공유
+            Kakao.Link.sendDefault({
+                objectType: 'feed',
+                content: {
+                    title: '제목',
+                    description: '내용',
+                    imageUrl: './img/ddd.jpg',
+                    link: {
+                        mobileWebUrl: 'idolposition.site',
+                        webUrl: 'idolposition.site'
+                    }
+                },
+                buttons: [
+                    {
+                        title: '앱에서 보기',
+                        link: {
+                            mobileWebUrl: 'idolposition.site',
+                            webUrl: 'idolposition.site'
+                        }
+                    }
+                ]
+            });
+        }
+    </script>
         <div class="container">
             <div class="row">
                 <div class="col-md-6 offset-md-3">
@@ -250,9 +300,6 @@
                         <div class="drag-text">
                             <img src="img/upload.png" class="upload" />
                             <h3 class="upload-text">정면 사진을<br />첨부해 주세요</h3>
-                        </div>
-                        <div class="additional-message">
-                            첨부한 사진은 저장되지 않습니다
                         </div>
                     </div>
                     <div class="file-upload-content">
@@ -328,6 +375,23 @@
                                 다시하기
                             </button>
                         </div>
+                        <a
+                            id="btnTwitter"
+                            class="link-icon twitter"
+                            href="javascript:shareTwitter();"
+                        ></a>
+
+                        <a
+                            id="btnFacebook"
+                            class="link-icon facebook"
+                            href="javascript:shareFacebook();"
+                        ></a>
+
+                        <a
+                            id="btnKakao"
+                            class="link-icon kakao"
+                            href="javascript:shareKakao();"
+                        ></a>
                     </div>
                 </div>
             </div>
